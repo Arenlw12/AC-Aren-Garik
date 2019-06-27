@@ -4,10 +4,6 @@ var colors = {
 	gmin : 100, gmax : 255,
 	bmin : 62, bmax : 255
 }
-
-function preload(){
-	sound = loadSound('../audio/music.mp3');
-}
 var fft, mic;
 function setup() {
 	createCanvas(windowWidth, windowHeight);
@@ -23,7 +19,6 @@ k = 0;
 var mid = 253, up = 20, rigth = 150, left = 200, down = 220;
 var aliqCounter = 0;
 function draw() {	
-
 	var spectrum = fft.analyze();
 	for(var i in spectrum)
 	{			
