@@ -7,6 +7,7 @@ var fft, mic;
 var barWidth;
 var r;
 var r1 = 0
+var slider;
 // let IMGimg;
 
 // function preload() {
@@ -18,7 +19,8 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   angleMode(DEGREES);
   colorMode(HSB);
- col = color(10);
+  slider = createSlider(0, 1, 0.5, 0.01);
+//  col = color(10);
   // button = createButton("Listen");
   // button.mousePressed(toggleListen);
   // button.style('background-color', col);
@@ -48,7 +50,7 @@ function draw() {
   if (getAudioContext().state !== 'running') {
     getAudioContext().resume();}
   background(10);
-
+  mic.setVolume(slider.value());
   var spectrum = fft.analyze()
 
 for (var i = 0; i < spectrum.length; i++) {

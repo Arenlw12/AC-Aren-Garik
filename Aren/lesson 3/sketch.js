@@ -474,84 +474,57 @@
 
 var song;
 var button;
-var fft, mic, fft1;
+var fft;
 var barWidth;
-var r;
-var r1 = 0
+
+var ampHistory = [];
+
+function preload() {
+    song = loadSound("../audio/myBeat.mp3");
+}
 
 function setup() {
-  createCanvas(windowWidth, windowHeight - 100);
-  angleMode(DEGREES);
-  colorMode(HSB);
-
-  button = createButton("Listen");
-  button.mousePressed(toggleListen);
-
-  mic = new p5.AudioIn();
-  mic.start();
-  fft = new p5.FFT(.5, 64);
-  fft.setInput(mic)
-  barWidth = width / 64;
-  strokeWeight = 8;
+    createCanvas(windowWidth, windowHeight - 100);
+    angleMode(DEGREES);
+    colorMode(HSB);
+    slider = createSlider(0, 1, 0.5, 0.01);
+    button = createButton("Play");
+    button.mousePressed(togglePlay);
+    // song.loop();
+    fft = new p5.FFT(.6, 64);
+    barWidth = width / 64;
 }
-function toggleListen() {
-  if (getAudioContext().state !== 'running') {
-    getAudioContext().resume();
-    console.log('listening to audio', width / 2, height / 2);
-    button.html("Stop");
-  } else {
-    console.log('click Play button to start', width / 2, height / 2);
 
-    button.html("Listen");
-  }
+function togglePlay() {
+    if (!song.isPlaying()) {
+        song.loop();
+        button.html("Pause");
+    } else {
+        song.stop();
+        button.html("Play");
+    }
 }
 
 function draw() {
-  background(10);
-
-  var spectrum = fft.analyze()
-
-for (var i = 0; i < spectrum.length; i++) {
-  var angle = map(i, 0, spectrum.length, 0, 360);
-  var amp = spectrum[i];
-  var r1 = map(amp, 0, 256, 20, 250);
-  // console.log(r1)
-//  var newR = int(r1);
-//   console.log(newR)
-  stroke(i * 10, 255, 255);
-  var multiplier =2;
-  ellipse(width , height ,  r1*multiplier, r1*multiplier)
-  ellipse(width , height/2048,  r1*multiplier,  r1*multiplier)
-  ellipse(width /973, height ,  r1*multiplier,  r1*multiplier)
-  ellipse(width / 973, height / 2048,  r1*multiplier,  r1*multiplier)
-
-  ellipse(width , height , 50, 50)
-  ellipse(width , height/2048, 50, 50)
-  ellipse(width /973, height , 50, 50)
-  ellipse(width / 973, height / 2048, 50, 50)
-  
-}
-  translate(width / 2, height / 2)
-  for (var i = 0; i < spectrum.length; i++) {
-    var angle = map(i, 0, spectrum.length, 0, 360);
-    var amp = spectrum[i];
-    var r = map(amp, 0, 256, 20, 250);
-
-    var x = r * cos(angle * 7 );
-    var y = r * sin(angle * 7);
-    stroke(i * 10, 255, 255);
-    line(0, 0, x * 2, y * 2)
-    ellipse(x * 2, y * 2, 40, 40)
-    ellipseMode(CENTER);
-    fill(0);
-    ellipse(x * 2, y * 2, 30, 30)
-    ellipse(x * 2, y * 2, 10, 10);
-    // ellipse(0, 0, r, r);
-    ellipse(0, 0, 45, 45);
-
-
-  }
-
+    background(0);
+    song.setVolume(slider.value());
+    var spectrum = fft.analyze()
+    translate(width / 2, height / 2)
+    //beginShape();
+    for (var i = 0; i < spectrum.length; i++) {
+        var angle = map(i, 0, spectrum.length, 0, 360);
+        var amp = spectrum[i];
+        var r = map(amp, 0, 256, 20, 250);
+        //fill(i, 255, 255);
+        var x = r * cos(angle);
+        var y = r * sin(angle);
+        stroke(i * 5, 255, 255);
+        line(0, 0, x, y);
+        //vertex(x, y);
+        //var y = map(amp, 0, 256, height, 0);
+        //rect(i * w, y, w - 2, height - y);
+    }
+    //endShape();
 }
 
 //////////34
