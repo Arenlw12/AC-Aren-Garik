@@ -15,14 +15,14 @@ var r1 = 0
 // }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight+60);
+  createCanvas(windowWidth, windowHeight);
   angleMode(DEGREES);
   colorMode(HSB);
  col = color(10);
-  button = createButton("Listen");
-  button.mousePressed(toggleListen);
-  button.style('background-color', col);
-  button.position(0,height);
+  // button = createButton("Listen");
+  // button.mousePressed(toggleListen);
+  // button.style('background-color', col);
+  // button.position(0,height);
   
   
   mic = new p5.AudioIn();
@@ -32,19 +32,21 @@ function setup() {
   barWidth = width / 64;
 
 }
-function toggleListen() {
-  if (getAudioContext().state !== 'running') {
-    getAudioContext().resume();
-    console.log('listening to audio', width / 2, height / 2);
-    button.html("Listening...");
-  } else {
-    console.log('click Play button to start', width / 2, height / 2);
+// function toggleListen() {
+//   if (getAudioContext().state !== 'running') {
+//     getAudioContext().resume();
+//     console.log('listening to audio', width / 2, height / 2);
+//     button.html("Listening...");
+//   } else {
+//     console.log('click Play button to start', width / 2, height / 2);
 
-    button.html("Listen");
-  }
-}
+//     button.html("Listen");
+//   }
+// }
 
 function draw() {
+  if (getAudioContext().state !== 'running') {
+    getAudioContext().resume();}
   background(10);
 
   var spectrum = fft.analyze()
@@ -59,7 +61,7 @@ for (var i = 0; i < spectrum.length; i++) {
   // image(IMGimg, 0, 0, 3*r1, 3*r1)
 
 
-  var multiplier =2.5;
+  var multiplier =3;
   ellipse(width , height ,  r1*multiplier, r1*multiplier)
   ellipse(width , height/2048,  r1*multiplier,  r1*multiplier)
   ellipse(width /1123, height ,  r1*multiplier,  r1*multiplier)
@@ -94,4 +96,3 @@ for (var i = 0; i < spectrum.length; i++) {
   }
 
 }
-
