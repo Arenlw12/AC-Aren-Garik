@@ -61,7 +61,7 @@ for (var i = 0; i < spectrum.length; i++) {
   // image(IMGimg, 0, 0, 3*r1, 3*r1)
 
 
-  var multiplier =3;
+  var multiplier =2.5;
   ellipse(width , height ,  r1*multiplier, r1*multiplier)
   ellipse(width , height/2048,  r1*multiplier,  r1*multiplier)
   ellipse(width /1123, height ,  r1*multiplier,  r1*multiplier)
